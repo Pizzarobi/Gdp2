@@ -1,9 +1,19 @@
-#include <iostream>
-#include <vector>
-#include <ctime>
+#include "employee.h"
 using namespace std;
 
-void print(const string& name, const string& firstName, const vector<int>& dateOfBirth, const float& salary){
+Employee::Employee(const string pName, const string pFirstName,
+                   const vector<int> pDateOfBirth, const float pSalary){
+    name = pName;
+    firstName = pFirstName;
+    dateOfBirth = pDateOfBirth;
+    salary = pSalary;
+}
+
+float Employee::getSalary() const{
+    return salary;
+}
+
+void Employee::print() const{
     cout.setf(ios::fixed);
     cout.precision(2);
     cout << "Name:       " << name << "\n";
@@ -15,7 +25,7 @@ void print(const string& name, const string& firstName, const vector<int>& dateO
     cout << "Gehalt:     " << salary << " Euro\n";
 }
 
-int age(const vector<int> dateOfBirth){
+int Employee::age() const {
     // Get current time
     time_t now = time(nullptr);
     tm * t = localtime(&now);
@@ -34,23 +44,6 @@ int age(const vector<int> dateOfBirth){
     return age_Y;
 }
 
-void riseSalary(float& salary, const float rise){
+void Employee::riseSalary(const float rise){
     salary *= 1+rise;
-}
-
-
-int main(){
-
-    string firstName = "Yo";
-    string name = "Momma";
-
-    vector<int> dateOfBirth = {2001,3, 2};
-    float salary = 100.0;
-
-    riseSalary(salary,0.5);
-
-    print(name, firstName, dateOfBirth, salary);
-    printf("Age:        %d\n",age(dateOfBirth));
-
-    return 0;
 }
