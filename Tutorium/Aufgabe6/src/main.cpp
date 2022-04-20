@@ -31,11 +31,7 @@ bool Bauwerk::isHochhaus(){
 }
 
 bool Bauwerk::isWolkenkratzer(){
-  if(isHochhaus()){
-    if(hoehe>=150)
-      return true;
-  }
-  return false;
+  return isHochhaus() && (hoehe>=150);
 }
 
 void Bauwerk::erweitereUmStockwerk(){
