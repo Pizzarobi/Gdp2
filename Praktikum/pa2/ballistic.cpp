@@ -1,4 +1,6 @@
 #include "ballistic.h"
+#include <math.h>
+#include <numbers>
 
 Ballistic::Ballistic(string pId, float pTakeOffAngle, float pLandingAngle) : Ufo(pId){
     if(pTakeOffAngle > 0 && pTakeOffAngle < 90)
@@ -34,15 +36,39 @@ void Ballistic::flyToDest(const float x, const float y, const float height, cons
 }
 
 vector<float> Ballistic::firstWaypoint(const float x, const float y, const float height) const{
-    // calculate angle between start point and end point
+    // get current position
     vector<float> currPos = {sim.getX(),sim.getY()};
+    // calculate vector to end position
+    float vx = x - currPos[0];
+    float vy = y - currPos[1];
+    // calculate length of vector
+    float lengthTotal = std::sqrt(vx*vx + vy*y);
+    // calculate length to position w1
+    float length = height / std::tan(takeOffAngle*(180/std::numbers::pi));
+    // calculate w1x and w1y
+    float lengthToW1x = (length/lengthTotal) * vx;
+    float lengthToW1y = (length/lengthTotal) * vy;
 
-    
-    vector<float> w1 = {0,0};
+    vector<float> w1 = {lengthToW1x+currPos[0], lengthToW1y+currPos[1]};
+
     return w1;
 }
 
 vector<float> Ballistic::secondWaypoint(const float x, const float y, const float height) const{
-    vector<float> w2 = {0,0};
+    // get current position
+    vector<float> currPos = {sim.getX(),sim.getY()};
+    // calculate vector to end position
+    float vx = x - currPos[0];
+    float vy = y - currPos[1];
+    // calculate length of vector
+    float lengthTotal = std::sqrt(vx*vx + vy*vy);
+    // calculate length to position w2
+    float length = height / std::tan(landingAngle*(180/std::numbers::pi));
+    // calculate w2x and w2y
+    float lengthToW2x = ((length/lengthTotal)*vx) - vx;
+    float lengthToW2y = ((length/lengthTotal)*vy) - vy;
+
+    vector<float> w2 = {lengthToW2x+currPos[0], lengthToW2y+currPos[1]}; 
+    
     return w2;
 }
