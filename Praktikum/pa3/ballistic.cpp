@@ -44,9 +44,9 @@ vector<float> Ballistic::firstWaypoint(const float x, const float y, const float
     float vx = x - currPos[0];
     float vy = y - currPos[1];
     // calculate length of vector
-    float lengthTotal = std::sqrt(vx*vx + vy*vy);
+    float lengthTotal = sqrt(vx*vx + vy*vy);
     // calculate length to position w1
-    float length = height / std::tan(takeOffAngle*(std::numbers::pi/180));
+    float length = height / tan(takeOffAngle*(std::numbers::pi/180));
     // calculate w1x and w1y
     float lengthToW1x = (length/lengthTotal) * vx;
     float lengthToW1y = (length/lengthTotal) * vy;
@@ -62,9 +62,9 @@ vector<float> Ballistic::secondWaypoint(const float x, const float y, const floa
     float vx = x - currPos[0];
     float vy = y - currPos[1];
     // calculate length of vector
-    float lengthTotal = std::sqrt(vx*vx + vy*vy);
+    float lengthTotal = sqrt(vx*vx + vy*vy);
     // calculate length to position w2
-    float length = height / std::tan(landingAngle*(std::numbers::pi/180));
+    float length = height / tan(landingAngle*(std::numbers::pi/180));
     // calculate w2x and w2y
     float lengthToW2x = ((length/lengthTotal)*vx*-1);
     float lengthToW2y = ((length/lengthTotal)*vy*-1);

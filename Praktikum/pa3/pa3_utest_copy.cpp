@@ -6,7 +6,8 @@
 #include "ufo.h"
 #include "ballistic.h"
 #include "vertical.h"
-
+#include "route.h"
+    
 BOOST_AUTO_TEST_SUITE(pa_utest)
 
 std::vector<float> dest1 = { 10.0, 10.0, 8.0 };
@@ -172,6 +173,74 @@ BOOST_AUTO_TEST_CASE(ballistic_after_one_flight)
     }
 
     BOOST_CHECK(fabs(ball.getFtime() - 20.8) < 3);
+}
+
+BOOST_AUTO_TEST_CASE(vertical_distance)
+{
+    BOOST_CHECK(fabs(Vertical::distance(0.0, 1.0, 0.0, 1.0, 10.0) - 20.0) < 0.001);
+    BOOST_CHECK(fabs(Vertical::distance(1.0, -1.0, -10.5, -20.11, 0.0) - 22.3034) < 0.001);
+    BOOST_CHECK(fabs(Vertical::distance(1.0, -1.0, -10.5, -20.11, 8.0) - 38.3034) < 0.001);
+}
+
+BOOST_AUTO_TEST_CASE(route)
+{
+    Route route;
+    BOOST_CHECK(size(route.getDestinations()) == 0);
+    route.add(55.0, 20.0);
+    BOOST_CHECK(size(route.getDestinations()) == 1);
+    route.add(-116.5, 95.0);
+    BOOST_CHECK(size(route.getDestinations()) == 2);
+    route.add(-10.0, -40.0);
+    BOOST_CHECK(size(route.getDestinations()) == 3);
+    route.add(-115.0, 95.0);
+    BOOST_CHECK(size(route.getDestinations()) == 4);
+    
+    if (size(route.getDestinations()) == 4)
+    {
+        BOOST_CHECK(fabs(route.getDestinations()[0].first - 55.0) < 0.001);
+        BOOST_CHECK(fabs(route.getDestinations()[0].second - 20.0) < 0.001);
+        BOOST_CHECK(fabs(route.getDestinations()[1].first + 116.5) < 0.001);
+        BOOST_CHECK(fabs(route.getDestinations()[1].second - 95.0) < 0.001);
+        BOOST_CHECK(fabs(route.getDestinations()[2].first + 10.0) < 0.001);
+        BOOST_CHECK(fabs(route.getDestinations()[2].second + 40.0) < 0.001);
+        BOOST_CHECK(fabs(route.getDestinations()[3].first + 115.0) < 0.001);
+        BOOST_CHECK(fabs(route.getDestinations()[3].second - 95.0) < 0.001);
+    }
+    
+    route.setHeight(10.0);
+    BOOST_CHECK(fabs(route.getHeight() - 10.0) < 0.001);
+
+    route.setDist(&Vertical::distance);
+
+    BOOST_CHECK(fabs(route.distance() - 837.848) < 0.001);
+    
+    route.shortestRoute();
+    BOOST_CHECK(size(route.getDestinations()) == 4);
+    BOOST_CHECK(fabs(route.distance() - 559.015) < 0.001);
+}
+
+BOOST_AUTO_TEST_CASE(route_empty)
+{
+    Route route;
+    BOOST_CHECK(size(route.getDestinations()) == 0);
+    BOOST_CHECK(fabs(route.distance() - 0.0) < 0.001);
+    route.shortestRoute();
+    BOOST_CHECK(size(route.getDestinations()) == 0);
+    BOOST_CHECK(fabs(route.distance() - 0.0) < 0.001);
+}
+
+float myDist(const float, const float, const float, const float, const float)
+{
+    return 3.0;
+}
+
+BOOST_AUTO_TEST_CASE(route_dist)
+{
+    Route route;
+    route.add(0.0, 10.0);
+    route.setHeight(10.0);
+    route.setDist(&myDist);
+    BOOST_CHECK(fabs(route.distance() - 6.0) < 0.001);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
