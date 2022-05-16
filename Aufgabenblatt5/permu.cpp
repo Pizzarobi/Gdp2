@@ -19,6 +19,8 @@ int main(){
     }
     cout << '\n';
 
+    //cout << "Testing perm: " << next_permutation(indices.begin(),indices.end()) << endl;
+
     while(next_permutation(indices.begin(),indices.end())){
         for(auto j: indices){
             cout << j << ' ';

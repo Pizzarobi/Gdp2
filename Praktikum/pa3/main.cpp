@@ -8,14 +8,27 @@
 
 int main(){
     Route route;
-    route.add(10.0,5.0);
-    route.add(10.0,0.0);
-    route.add(0.0,10.0);
-    route.setHeight(3.0);
+    // works
+    // route.add(1.0,1.0);
+    // route.add(2.0,2.0);
+    // route.add(3.0,3.0);
+
+    // does not work
+    // route.add(10.0,5.0);
+    // route.add(10.0,0.0);
+    // route.add(0.0,10.0);
+
+    // from boost check
+    route.add(55.0, 20.0);
+    route.add(-116.5, 95.0);
+    route.add(-10.0, -40.0);
+    route.add(-115.0, 95.0);
+    
+    route.setHeight(10.0);
 
     route.setDist(&Vertical::distance);
-    route.distance();
+    cout << "First Test: " << route.distance() << endl;
 
     route.shortestRoute();
-    //cout << "Shortest Route: " << route.distance() << endl;
+    cout << "Shortest Route: " << route.distance() << endl;
 }
