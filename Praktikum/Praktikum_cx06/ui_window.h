@@ -12,7 +12,7 @@ public:
     MainWindow()
     {
         QIcon icon("../grid/thi_icon.png");
-        setWindowTitle("Grid");
+        setWindowTitle("Ufo");
         setWindowIcon(icon);
         resize(200, 25);
         mainwidget = new MainWidget();
