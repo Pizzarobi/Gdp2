@@ -65,7 +65,7 @@ public:
         delete labelY;
         delete labelH;
         delete labelInfo;
-        delete layout;
+        delete layout1;
     }
 
 private slots:
@@ -95,11 +95,7 @@ private:
     QLabel *labelY;
     QLabel *labelH;
     QLabel *labelInfo;
-    QGridLayout *layout;
     QGridLayout *layout1;
-    QGridLayout *layout2;
-    QWidget *widget1;
-    QWidget *widget2;
 };
 
 #endif // UI_WIDGET_H
