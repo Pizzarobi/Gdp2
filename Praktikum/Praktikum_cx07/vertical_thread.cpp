@@ -11,7 +11,7 @@ void VerticalThread::runner(const float x, const float y, const float height){
 
 void VerticalThread::startUfo(const float x, const float y, const float height){
     completed = false;
-    flyThread = std::thread(runner,this,x,y,height);
+    flyThread = std::thread(&VerticalThread::runner,this,x,y,height);
     flyThread.detach();
 }
 
