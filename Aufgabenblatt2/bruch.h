@@ -6,12 +6,12 @@ private:
     int nenner;
 
     void kuerze();
-    void normalisiere();
     static int ggt(int a, int b);
 
 public:
+    void normalisiere();
     Bruch(const int pz, const int pn);
-    std::string toString() const{ return (zaehler + "/" + nenner); }
+    std::string toString() const{ return std::to_string(zaehler) + "/" + std::to_string(nenner); }
     void add(const Bruch bruch);
     void sub(const Bruch bruch);
     void mult(const Bruch bruch);
